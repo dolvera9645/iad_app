@@ -1,0 +1,13 @@
+# config.yaml
+
+g_value: 0.9 #use "g_value" to set the g value for the power law fit
+reference_wavelength: 700 #set the reference wavelength for the power law fit
+fit_min: 600 #set the minimum wavelength for the power law fit
+fit_max: 750 #set the maximum wavelength for the power law fit
+analysis_mode: "F" #set the analysis mode, "F" for fixed mode, "P" for power law mode
+use_dual_beam: true #for dual beam mode, use "true" for dual beam mode, "false" for single beam mode
+font_size: 18 #font size for the GUI
+
+#iad_exe: iad.exe #set the path to the iad executable
+#input_dir: iad_inputs #set the path to the input directory
+#output_dir: iad_outputs #set the path to the output directory
