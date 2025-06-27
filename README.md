@@ -1,6 +1,6 @@
 # IAD Optical Analysis Suite
 
-A fully integrated desktop application for automating the **Inverse Adding-Doubling (IAD)** method used in optical property extraction of turbid media. Designed for biomedical optics researchers, this tool enables batch processing of reflectance and transmittance data with streamlined model fitting, simulation execution, and visualization. [Click here to open the full User Manual (PDF)](docs/IAD_shell.pdf)
+A fully integrated desktop application for automating the **Inverse Adding-Doubling (IAD)** method used in optical property extraction of turbid media. Designed for biomedical optics researchers, this tool enables batch processing of reflectance and transmittance data with streamlined model fitting, simulation execution, and visualization. [Click here to open the full User Manual (PDF)](docs/IAD_Shell.pdf)
 
 
 ![App Screenshot](docs/screenshot.png)
