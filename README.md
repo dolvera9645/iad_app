@@ -1,49 +1,156 @@
-# iad_app
+# IAD Optical Analysis Suite
 
-# IAD Batch Automation Tool
+A fully integrated desktop application for automating the **Inverse Adding-Doubling (IAD)** method used in optical property extraction of turbid media. Designed for biomedical optics researchers, this tool enables batch processing of reflectance and transmittance data with streamlined model fitting, simulation execution, and visualization.
 
-**IAD Batch Automation Tool** is a portable Windows application that automates batch processing of `.rxt` input files using the Inverse Adding-Doubling (IAD) method. This tool simplifies running `iad.exe` across multiple datasets, provides a progress bar and splash screen, and organizes outputs into a clean directory.
+![App Screenshot](docs/screenshot.png)
 
-## ✨ Features
+---
 
-- 🖥️ Standalone `.exe` — no Python required
-- 🧠 Automatically processes all `.rxt` files using `iad.exe -X`
-- 📂 Inputs/outputs handled automatically
-- 🎛️ Visual splash screen and progress bar
-- 🧹 Cleanup and file organization included
-- 🧑‍💻 Easily extensible and customizable
+## 🚀 Features
+
+- 🖥️ Graphical User Interface (GUI) via DearPyGUI  
+- 🧮 Automated execution of `iad.exe` for each wavelength/sample  
+- 📂 Batch processing of `.rxt` files with scattering/absorption extraction  
+- ⚙️ Supports fixed and power-law-based scattering modes  
+- 📊 Real-time plotting and report generation  
+- 🧠 Fits Mie-like power-law models:  
+  <b>μs′(λ) = a₀ · (λ / λ₀)<sup>−b<sub>mie</sub></sup></b>
+- 📁 Organized output directory with logs, plots, and CSV results  
+
+---
 
 ## 📁 Folder Structure
-IADBatchApp/
+
 ```
-IADBatchApp/ 
-├── iad_automation.exe # Main executable
-├── iad.exe # IAD processor (from Scott Prahl's repo)
-├── splash.png # Splash image on launch
-├── icon.ico # Custom app icon (used for .exe)
-├── iad_inputs/ # Place .rxt input files here
-└── iad_outputs/ # Processed output files (.txt) are saved here ``` </pre>
+iad_shell/
+├── internal/
+│   ├── iad_inputs/
+│   ├── iad_outputs/
+│   └── logs/
+├── config.yaml
+├── iad_shell.exe
+├── requirements.txt
+└── README.md
+```
 
+- `iad_inputs/`: Contains `.rxt` files for each sample  
+- `iad_outputs/`: Stores IAD results, plots, and summaries  
+- `config.yaml`: User settings (e.g., wavelength range, g-value)  
+- `iad_shell.exe`: Compiled app or launcher  
 
-## 🚀 Getting Started
+---
 
-1. Place your `.rxt` files into the `iad_inputs` folder.
-2. Run `iad_automation.exe` by double-clicking it.
-3. Wait for processing to finish (watch the progress bar).
-4. Check the `iad_outputs` folder for your results.
+## 🧠 Background: Inverse Adding-Doubling
 
-## 🛠 Building From Source
+The Inverse Adding-Doubling method solves the radiative transfer problem in reverse to determine the **absorption** ($\mu_a$) and **reduced scattering** ($\mu_s'$) coefficients of a sample using measured reflectance ($R$) and transmittance ($T$):
 
-If you'd like to modify or rebuild the tool from source:
+- **Input:** Measured %R, %T at each wavelength  
+- **Constraints:** Index of refraction, thickness, anisotropy $g$  
+- **Output:** Optical properties $(\mu_a, \mu_s')$ per wavelength  
 
-### Prerequisites
-- Python 3.11+
-- `pyinstaller`, `tqdm`, `pillow`
+📚 Reference: [Scott Prahl’s IAD theory](https://omlc.org/software/iad/)
 
-### Installation
+---
+
+## 📦 Installation
+
+### ✅ Prerequisites
+
+- Python 3.8+
+- Windows (uses `iad.exe` binary)
+- Optional: Git (to clone the repo)
+
+---
+
+### 🛠️ Run from Source (Python)
+
 ```bash
-pip install pyinstaller tqdm pillow
+git clone https://github.com/dolvera9645/iad_app.git
+cd iad_app
+pip install -r requirements.txt
+python iad_gui.py
+```
 
+---
 
+### 📦 Run Executable (Windows)
 
+1. Download `iad_shell.exe`  
+2. Double-click to launch GUI
 
+---
+
+## ⚙️ Usage Workflow
+
+### 1. Initial Analysis
+- Extracts raw scattering from `.rxt` files  
+- Runs `iad.exe` in fixed mode with estimated $\mu_s'$
+
+### 2. Scattering Model Fit
+- Fits power-law model:  
+  <b>μs′(λ) = a₀ · (λ / λ₀)<sup>−b<sub>mie</sub></sup></b>
+ 
+- User selects wavelength fitting range (e.g., 600–750 nm)
+
+### 3. Final Analysis
+- Runs IAD again, using either:
+  - **Fixed Scattering Mode** (manual μs′ values)
+  - **Power Law Mode** (reconstructed μs′ from model fit)
+
+### 4. Visualization
+- Choose GUI or matplotlib output
+- Plots saved as `.png` and CSV exports
+
+---
+
+## 🧪 Example Output
+
+| Wavelength (nm) | μa (1/mm) | μs′ (1/mm) |
+|-----------------|-----------|------------|
+| 750             | 0.152     | 0.512      |
+| 700             | 0.189     | 0.578      |
+| ...             | ...       | ...        |
+
+---
+
+## 📝 Configuration (`config.yaml`)
+
+```yaml
+g_value: 0.8
+use_dual_beam: true
+reference_wavelength: 600
+fit_range:
+  min: 600
+  max: 750
+```
+
+---
+
+## 🧑‍💻 Developer Notes
+
+- Modular architecture:
+  - `iad_model.py` — optical model fitting and IAD prep
+  - `iad_gui.py` — DearPyGUI frontend
+  - `iad_core.py` — engine that calls `iad.exe`
+
+---
+
+## 📄 License
+
+MIT License — feel free to use and modify.
+
+---
+
+## 🙋‍♂️ Author
+
+**Diego Olvera**  
+Biomedical Engineering @ Texas A&M  
+GitHub: [@dolvera9645](https://github.com/dolvera9645)
+
+---
+
+## 🔗 References
+
+- [Inverse Adding-Doubling Method](https://omlc.org/software/iad/)  
+- [DearPyGUI](https://github.com/hoffstadt/DearPyGui)  
+- [Scipy: `curve_fit`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html)
