@@ -22,21 +22,29 @@ A fully integrated desktop application for automating the **Inverse Adding-Doubl
 ## 📁 Folder Structure
 
 ```
-iad_shell/
-├── internal/
-│   ├── iad_inputs/
-│   ├── iad_outputs/
-│   └── logs/
-├── config.yaml
-├── iad_shell.exe
-├── requirements.txt
-└── README.md
+iad_app/
+├── core/               # Core logic and processing engine
+├── docs/               # Documentation and screenshots (e.g. screenshot.png)
+│   └── screenshot.png
+├── gui/                # DearPyGUI or frontend modules
+├── iad_inputs/         # Input .rxt files for IAD analysis
+├── iad_outputs/        # Output files from IAD simulations
+├── tests/              # Unit tests and validation tools
+├── utils/              # Utility functions (file I/O, plotting, etc.)
+├── config/             # User-defined configuration files
+│   └── config.yaml
+├── config_loader.py    # Loads and parses YAML configs
+├── iad.exe             # External IAD engine binary
+├── iad_shell.py        # Main application launcher
+├── iad_shell.spec      # PyInstaller build config
+├── iad_shell_library.py# Core processing and model logic
+├── LICENSE             # Project license (MIT)
+└── README.md           # Project overview and documentation
 ```
 
 - `iad_inputs/`: Contains `.rxt` files for each sample  
 - `iad_outputs/`: Stores IAD results, plots, and summaries  
-- `config.yaml`: User settings (e.g., wavelength range, g-value)  
-- `iad_shell.exe`: Compiled app or launcher  
+- `config.yaml`: User settings (e.g., wavelength range, g-value)
 
 ---
 
@@ -68,17 +76,12 @@ The Inverse Adding-Doubling method solves the radiative transfer problem in reve
 git clone https://github.com/dolvera9645/iad_app.git
 cd iad_app
 pip install -r requirements.txt
-python iad_gui.py
+python iad_shell.py
 ```
 
 ---
 
-### 📦 Run Executable (Windows)
 
-1. Download `iad_shell.exe`  
-2. Double-click to launch GUI
-
----
 
 ## ⚙️ Usage Workflow
 
@@ -131,7 +134,7 @@ fit_range:
 - Modular architecture:
   - `iad_model.py` — optical model fitting and IAD prep
   - `iad_gui.py` — DearPyGUI frontend
-  - `iad_core.py` — engine that calls `iad.exe`
+  - `iad_core.py` — engine that calls `iad.exe'
 
 ---
 
